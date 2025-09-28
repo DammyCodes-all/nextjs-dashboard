@@ -29,12 +29,7 @@ export async function createInvoice(formData: FormData) {
     await sql`INSERT INTO invoices (customer_id, amount, status, date)
     VALUES (${customerId}, ${amountInCents}, ${status}, ${date})`;
     revalidatePath("/dashboard/invoices");
-  } catch (error) {
-    console.error(error);
-    return {
-      message: "Database Error: Failed to Create Invoice.",
-    };
-  }
+  } catch (error) {}
   redirect("/dashboard/invoices");
 }
 const UpdateInvoice = FormSchema.omit({ id: true, date: true });
