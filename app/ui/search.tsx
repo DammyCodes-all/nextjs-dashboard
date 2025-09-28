@@ -8,14 +8,9 @@ export default function Search({ placeholder }: { placeholder: string }) {
   const { replace } = useRouter();
   const pathname = usePathname();
   const handleSearch = useDebouncedCallback((query: string) => {
-    const params = query ? `query=${query.trim()}` : ""; //new URLSearchParams(searchParams);
-    // if (query) {
-    //   params.set("query", query);
-    // } else {
-    //   params.delete("query");
-    // }
+    const params = query ? `query=${query.trim()}` : "";
     replace(`${pathname}?${params.toString()}`);
-  }, 250);
+  }, 150);
   return (
     <div className="relative flex flex-1 flex-shrink-0">
       <label htmlFor="search" className="sr-only">
