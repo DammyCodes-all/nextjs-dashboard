@@ -44,7 +44,7 @@ export const authenticate = async (
       if (e.type === "CredentialsSignin") {
         return "Invalid Credentials";
       }
-      return "Error";
+      return "Something went wrong!!!";
     }
     throw e;
   }
