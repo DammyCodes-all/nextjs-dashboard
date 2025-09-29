@@ -4,6 +4,8 @@ import { z } from "zod";
 import postgres from "postgres";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { signIn } from "@/auth";
+import { AuthError } from "next-auth";
 
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: "require" });
 const FormSchema = z.object({
@@ -30,6 +32,23 @@ export type State = {
 };
 
 const CreateInvoice = FormSchema.omit({ id: true, date: true });
+
+export const authenticate = async (
+  prevState: string | undefined,
+  formData: FormData
+) => {
+  try {
+    await signIn("credentials", formData);
+  } catch (e) {
+    if (e instanceof AuthError) {
+      if (e.type === "CredentialsSignin") {
+        return "Invalid Credentials";
+      } else {
+        return "Unknown Error. Please try again.";
+      }
+    }
+  }
+};
 
 export async function createInvoice(prevState: State, formData: FormData) {
   const validatedFields = CreateInvoice.safeParse({
