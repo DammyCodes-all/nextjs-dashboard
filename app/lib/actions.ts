@@ -43,10 +43,10 @@ export const authenticate = async (
     if (e instanceof AuthError) {
       if (e.type === "CredentialsSignin") {
         return "Invalid Credentials";
-      } else {
-        return "Unknown Error. Please try again.";
       }
+      return "Error";
     }
+    throw e;
   }
 };
 
